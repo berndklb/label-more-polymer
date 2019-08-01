@@ -1,0 +1,17 @@
+{
+  "name": "label-more",
+  "version": "3.0.0",
+  "flat": true,
+  "description": "Text with a button to show more of the content",
+  "main": "index.html",
+  "repository": "",
+  "author": "",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "@polymer/polymer": "^3.0.0",
+    "@webcomponents/webcomponentsjs": "^1.0.20"
+  },
+  "resolutions": {
+    "@webcomponents/webcomponentsjs": "1.0.20"
+  }
+}
