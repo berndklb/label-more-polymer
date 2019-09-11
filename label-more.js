@@ -5,20 +5,18 @@ class LabelMore extends PolymerElement {
     return html`
       <style>
         /* shadow DOM styles go here */
-        :host {
-          width: 100%;
-        }
-        #fadecontainer{
+        
+        
+        #fadecontainer {
           position: relative;
         }
         
         #fadecontent{
-          max-height: 120px;
           position: relative;
           overflow: hidden;
         }    
-        div#fadecontent.full{
-          max-height: none;
+        #fadecontent.full{
+          max-height: auto;
         }
     
         .fade {
@@ -26,28 +24,39 @@ class LabelMore extends PolymerElement {
           bottom: 0;
           left: 0;
           width: 100%;
-          padding: 10px;
-          
-          background-image: linear-gradient(to top, lightgrey, transparent);
+          padding-top: 15px;
+          /*background-image: linear-gradient(to top, lightgrey, transparent);*/
+          background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%);
+        }
+
+        .fade.full {
+          visibility: hidden;
         }
     
         .fade-anchor-text {
-          
-          font-size: 17px;
-          font-family: Georgia,serif;
           text-decoration: none;
           vertical-align: middle;
           color: #868e96;
+          color: var(--read-more-color);
+        }
+        .fade-anchor-text:hover {
+          cursor: pointer;
+        }
+        .fade-anchor-text.overflowed {
+          visibility: visible;
+        }
+        .fade-anchor-text.fits {
+          visibility: hidden;
         }
       </style>
   
       <!-- shadow DOM goes here -->
       <div>
         <div id="fadecontainer">
-          <div id="fadecontent">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</div>
+          <div id="fadecontent" style="max-height: {{contentheight}}px"><slot></slot></div>
           <div id='fade' class="fade">&nbsp;</div>
         </div>
-        <span id="editor" class="fade-anchor-text editor">{{readmorecaption}}</span>
+        <span id="readmore" class="fade-anchor-text readmore">{{readmorecaption}}</span>
       </div>
     `;
   }
@@ -64,9 +73,11 @@ class LabelMore extends PolymerElement {
         value: 'Read more',
         reflectToAttribute: true
       },
-      content: {
-        type: String,
-        value: '',
+      contentheight: {
+        type: Number,
+        value: 60,
+        reflectToAttribute: true,
+        notify: true
       }
     };
   }
@@ -77,24 +88,35 @@ class LabelMore extends PolymerElement {
   }
   ready() {
     super.ready();
-    this.$.editor.addEventListener('click', this.toggle.bind(this));
+    this.$.readmore.addEventListener('click', this.toggle.bind(this));
+    this.$.readmore.classList.add(this.isOverflown(this.$.fadecontent) ? "overflowed" : "fits");
+    this.$
+    if(this.isOverflown(this.$.fadecontent)) {
+      this.$.fadecontent.classList.remove("full");
+      this.$.fade.classList.remove("full");
+    }else {
+      this.$.fadecontent.classList.add("full");
+      this.$.fade.classList.add("full");
+    }
+    
   }
 
   toggle() {
-    console.log("expanded:");
     this.expanded = !this.expanded;
-    console.log(this.expanded);
 
-    console.log(this.$.fadecontent);
-    /*this.$.fadecontent.style.maxHeight="none";*/
     if(this.expanded) {
       this.$.fadecontent.classList.add("full");
-      this.$.fade.classList.remove("fade");
+      this.$.fade.classList.add("full");
+      this.$.fadecontent.style.maxHeight = 'none';
     }else {
       this.$.fadecontent.classList.remove("full");
-      this.$.fade.classList.add("fade");
+      this.$.fade.classList.remove("full");
+      this.$.fadecontent.style.maxHeight = this.contentheight+'px';
     }
-    
+  }
+
+  isOverflown(element) {
+    return element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
   }
 }
 
