@@ -3,9 +3,12 @@
   "version": "3.0.0",
   "flat": true,
   "description": "Text with a button to show more of the content",
-  "main": "index.html",
-  "repository": "",
-  "author": "",
+  "main": "label-more.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/berndklb/label-more-polymer.git"
+  },
+  "author": "BKB",
   "license": "BSD-3-Clause",
   "dependencies": {
     "@polymer/polymer": "^3.0.0",
