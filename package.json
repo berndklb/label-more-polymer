@@ -1,6 +1,6 @@
 {
   "name": "label-more",
-  "version": "3.0.0",
+  "version": "1.0.0",
   "flat": true,
   "description": "Text with a button to show more of the content",
   "main": "label-more.js",

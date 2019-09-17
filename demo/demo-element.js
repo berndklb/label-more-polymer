@@ -15,6 +15,7 @@ class DemoElement extends PolymerElement {
       <style>
       :host {
         --read-more-color: grey;
+        --radiant-background-color: #E1E5EE;
       }
       </style>
       

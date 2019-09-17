@@ -101,13 +101,17 @@ class LabelMore extends PolymerElement {
     this.$.readmore.addEventListener('click', this.toggle.bind(this));
     window.addEventListener("resize", this.resizeWindow.bind(this));
 
-    this.$.readmore.classList.add(this.isOverflown(this.$.fadecontent) ? "overflowed" : "fits");  
+    this.$.readmore.classList.add(this.isOverflowed(this.$.fadecontent) ? "overflowed" : "fits");
+
+    if(!this.isOverflowed(this.$.fadecontent)) {
+      this.expanded = true;
+    }
 
     this.adjustHeight();
   }
 
   resizeWindow() {
-    if(this.isOverflown(this.$.fadecontent)) {
+    if(this.isOverflowed(this.$.fadecontent)) {
       this.$.readmore.classList.remove("fits");
       this.$.readmore.classList.add("overflowed");
     } else {
@@ -137,7 +141,7 @@ class LabelMore extends PolymerElement {
     }
   }
   
-  isOverflown(element) {
+  isOverflowed(element) {
     return element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
   }
 }
